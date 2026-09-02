@@ -2,6 +2,7 @@ package EaCy;
 
 public class Cart {
 	private int id;
+	private String title;
 	private int quantity;
 
 	public int getId() {
@@ -10,6 +11,14 @@ public class Cart {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public int getQuantity() {
