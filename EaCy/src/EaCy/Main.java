@@ -11,7 +11,6 @@ public class Main {
 		ArrayList<Cart> cart = new ArrayList<>();
 
 		while (true) {
-			InputUtil.inputString("tststststststst");
 			int number = Menu.menu();
 			if (number == 1) {
 				GoodsService.listPrice(null);
