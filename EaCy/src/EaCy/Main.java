@@ -11,15 +11,10 @@ public class Main {
 		ArrayList<Cart> cart = new ArrayList<>();
 
 		while (true) {
+			InputUtil.inputString("tststststststst");
 			int number = Menu.menu();
 			if (number == 1) {
-				System.out.println("商品一覧");
-				for (Goods no : goods) {
-					System.out.println("商品名:" + no.getTitle());
-					System.out.println("値段:" + no.getPrice());
-					System.out.println("在庫数:" + no.getStock());
-					System.out.println("カテゴリー:" + no.getCategory());
-				}
+				GoodsService.listPrice(null);
 				//一覧表示
 			} else if (number == 2) {
 				for (Cart no : cart) {
@@ -30,17 +25,23 @@ public class Main {
 			} else if (number == 3) {
 				while (true) {
 					System.out.println("管理画面");
+					System.out.println("0：商品一覧(id可視化)");
 					System.out.println("1：商品追加");
 					System.out.println("2：商品情報更新");
 					System.out.println("3：商品削除");
 					System.out.println("4：終了");
 					int admin = InputUtil.inputInt("番号を入力");
 
-					if (admin == 1) {
+					if (admin == 0) {
+						GoodsService.listPrice("admin");
+					} else if (admin == 1) {
+						GoodsService.addPrice();
 						//商品追加
 					} else if (admin == 2) {
+						GoodsService.updatePrice();
 						//商品情報更新
 					} else if (admin == 3) {
+						GoodsService.deletePrice();
 						//商品削除
 					} else if (admin == 4) {
 						System.out.println("メニューに戻ります。");
