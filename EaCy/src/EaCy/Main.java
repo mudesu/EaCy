@@ -14,6 +14,10 @@ public class Main {
 			int number = Menu.menu();
 			if (number == 1) {
 				GoodsService.listPrice(null);
+				while (true) {
+					GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
+					break;
+				}
 				//一覧表示
 			} else if (number == 2) {
 				for (Cart no : cart) {
