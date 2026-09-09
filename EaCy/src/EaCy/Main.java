@@ -1,29 +1,21 @@
 package EaCy;
 
-import java.util.ArrayList;
-
 public class Main {
 	public static void main(String[] args) {
 
 		System.out.println("簡易EC注文管理アプリケーション　EaCy");
 
-		ArrayList<Goods> goods = new ArrayList<>();
-		ArrayList<Cart> cart = new ArrayList<>();
-
 		while (true) {
 			int number = Menu.menu();
 			if (number == 1) {
-				GoodsService.listPrice(null);
+				GoodsService.list();
 				while (true) {
 					GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
 					break;
 				}
 				//一覧表示
 			} else if (number == 2) {
-				for (Cart no : cart) {
-					System.out.println("商品名:" + no.getTitle());
-					System.out.println("購入数:" + no.getQuantity());
-				}
+				GoodsService.list();
 				//カート内表示
 			} else if (number == 3) {
 				while (true) {
@@ -36,7 +28,7 @@ public class Main {
 					int admin = InputUtil.inputInt("番号を入力");
 
 					if (admin == 0) {
-						GoodsService.listPrice("admin");
+						GoodsService.list();
 					} else if (admin == 1) {
 						GoodsService.addPrice();
 						//商品追加
