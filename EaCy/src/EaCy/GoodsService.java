@@ -20,7 +20,8 @@ public class GoodsService {
 		} else {
 			for (int i = 0; i < goods.size(); i++) {
 				Goods no = goods.get(i);
-				System.out.println("項目:" + i);
+				System.out.println("項目:" + (i + 1));
+				System.out.println("商品id:" + no.getId());
 				System.out.println("商品名:" + no.getTitle());
 				System.out.println("値段:" + no.getPrice());
 				System.out.println("在庫数:" + no.getStock());
@@ -107,20 +108,38 @@ public class GoodsService {
 	public static void orderPriceUpdate() {
 		int targetid = InputUtil.inputInt("変更したい注文商品のidを入力してください");
 
-		for (Cart cart : cart) {
-			if (targetid == cart.getId()) {
+		for (Cart c : cart) {
+			if (targetid == c.getId()) {
 				System.out.println("1:購入数変更");
 				System.out.println("2:カートから削除");
 				int targetitem = InputUtil.inputInt("変更したい項目を選択");
 
 				if (targetitem == 1) {
 					System.out.println("購入商品の在庫数");
-					cart.setQuantity(InputUtil.inputInt("購入数を変更"));
+					while (true) {
+						int quantity = InputUtil.inputInt("購入数を変更");
+						for (Goods goods : goods) {
+							if (targetid == goods.getId()) {
+								if (quantity > goods.getStock()) {
+									System.out.println("在庫数が足りません再入力してください");
+									continue;
+								}
+							}
+						}
+						c.setQuantity(quantity);
+						return;
+					}
+				}
+				if (targetitem == 2) {
+					cart.remove(targetid);
+					System.out.println("削除しました");
+					return;
 				}
 			}
 		}
 	}
 
+	//検索機能
 	public static void search() {
 		String targetcategory = InputUtil.inputString("カテゴリーを入力してください");
 
@@ -138,5 +157,24 @@ public class GoodsService {
 		if (i == 0) {
 			System.out.println("検索したカテゴリーの商品がありませんでした");
 		}
+	}
+
+	//商品購入機能
+	public static void buyPrice(int choicenumber) {
+		for (Goods g : goods) {
+			if (g == goods.get((choicenumber - 1))) {
+				while (true) {
+					int quantity = InputUtil.inputInt("購入数を入力してください");
+					if (quantity > g.getStock()) {
+						System.out.println("在庫数が足りません、再度入力してください");
+						continue;
+					}
+					cart.add(new Cart(g.getId(), g.getTitle(), quantity));
+					break;
+				}
+				return;
+			}
+		}
+		System.out.println("入力した項目が見つかりません再入力してください");
 	}
 }
