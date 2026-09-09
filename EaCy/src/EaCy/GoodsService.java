@@ -30,6 +30,14 @@ public class GoodsService {
 		}
 	}
 
+	public static void listCart() {
+		for (Cart cart : cart) {
+			System.out.println("商品id:" + cart.getId());
+			System.out.println("商品名:" + cart.getTitle());
+			System.out.println("購入数:" + cart.getQuantity());
+		}
+	}
+
 	//商品登録機能
 	public static void addPrice() {
 		System.out.println("商品登録");
@@ -41,7 +49,7 @@ public class GoodsService {
 	}
 
 	//商品情報更新機能
-	public static void updatePrice() {
+	public static void update() {
 		System.out.println("商品情報更新");
 		int targetid = InputUtil.inputInt("更新したい商品のidを入力");
 		for (Goods goods : goods) {
@@ -105,8 +113,7 @@ public class GoodsService {
 	}
 
 	//注文商品内容変更機能
-	public static void orderPriceUpdate() {
-		int targetid = InputUtil.inputInt("変更したい注文商品のidを入力してください");
+	public static void update(int targetid) {
 
 		for (Cart c : cart) {
 			if (targetid == c.getId()) {
@@ -147,7 +154,7 @@ public class GoodsService {
 		for (Goods goods : goods) {
 			if (targetcategory == goods.getCategory()) {
 				i++;
-				System.out.println("項目:" + i);
+				System.out.println("項目:" + (i + 1));
 				System.out.println("商品名:" + goods.getTitle());
 				System.out.println("値段:" + goods.getPrice());
 				System.out.println("在庫数:" + goods.getStock());
