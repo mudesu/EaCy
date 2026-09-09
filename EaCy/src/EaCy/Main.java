@@ -8,16 +8,19 @@ public class Main {
 		while (true) {
 			int number = Menu.menu();
 			if (number == 1) {
-				GoodsService.list();
+				GoodsService.listPrice(null);
 				while (true) {
 					GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
 					break;
 				}
 				//一覧表示
 			} else if (number == 2) {
-				GoodsService.list();
+				GoodsService.listCart();
+				GoodsService.update(InputUtil.inputInt("変更したい注文商品のidを入力してください"));
 				//カート内表示
 			} else if (number == 3) {
+				GoodsService.orderPrice();
+			} else if (number == 4) {
 				while (true) {
 					System.out.println("管理画面");
 					System.out.println("0：商品一覧(id可視化)");
@@ -28,12 +31,12 @@ public class Main {
 					int admin = InputUtil.inputInt("番号を入力");
 
 					if (admin == 0) {
-						GoodsService.list();
+						GoodsService.listPrice("admin");
 					} else if (admin == 1) {
 						GoodsService.addPrice();
 						//商品追加
 					} else if (admin == 2) {
-						GoodsService.updatePrice();
+						GoodsService.update();
 						//商品情報更新
 					} else if (admin == 3) {
 						GoodsService.deletePrice();
@@ -43,16 +46,16 @@ public class Main {
 						break;
 						//終了
 					} else {
-						System.out.println("1~4の番号を入力してください。");
+						System.out.println("1~5の番号を入力してください。");
 					}
 				}
 				//管理
-			} else if (number == 4) {
+			} else if (number == 5) {
 				//終了
 				System.out.println("アプリケーションを終了します。");
 				break;
 			} else {
-				System.out.println("1~4の番号を選択してください。");
+				System.out.println("1~5の番号を選択してください。");
 			}
 		}
 	}
