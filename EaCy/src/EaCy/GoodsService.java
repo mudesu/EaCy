@@ -95,26 +95,36 @@ public class GoodsService {
 	}
 
 	//注文確定機能
-	public static void orderPrice(int order) {
-		int decision = InputUtil.inputInt("注文内容を確定する場合は1を入力、キャンセルする場合は2を入力");
-
-		if (decision == 1) {
-			for (int i = 0; i < cart.size(); i++) {
-				Cart c = cart.get(i);
-				for (Goods goods : goods)
-					if (c.getId() == goods.getId()) {
-						goods.setStock((goods.getStock() - c.getQuantity()));
-					}
-				cart.remove(i);
+	public static void orderPrice() {
+		while (true) {
+			int decision = InputUtil.inputInt("注文内容を確定する場合は1を入力、キャンセルする場合は2を入力");
+			if (decision == 1) {
+				for (int i = 0; i < cart.size(); i++) {
+					Cart c = cart.get(i);
+					for (Goods goods : goods)
+						if (c.getId() == goods.getId()) {
+							goods.setStock((goods.getStock() - c.getQuantity()));
+						}
+					cart.remove(i);
+				}
+				System.out.println("注文を確定しました");
+				return;
 			}
-			System.out.println("注文を確定しました");
+			if (decision == 2) {
+				System.out.println("注文をキャンセルしました");
+				return;
+			} else {
+				System.out.println("1か2を入力してください");
+			}
 		}
-
 	}
 
 	//注文商品内容変更機能
 	public static void update(int targetid) {
 
+		if (targetid == 0) {
+			return;
+		}
 		for (Cart c : cart) {
 			if (targetid == c.getId()) {
 				System.out.println("1:購入数変更");
@@ -122,7 +132,11 @@ public class GoodsService {
 				int targetitem = InputUtil.inputInt("変更したい項目を選択");
 
 				if (targetitem == 1) {
-					System.out.println("購入商品の在庫数");
+					for (Goods goods : goods) {
+						if (goods.getId() == c.getId()) {
+							System.out.println("購入商品の在庫数:" + goods.getStock());
+						}
+					}
 					while (true) {
 						int quantity = InputUtil.inputInt("購入数を変更");
 						for (Goods goods : goods) {
@@ -131,14 +145,13 @@ public class GoodsService {
 									System.out.println("在庫数が足りません再入力してください");
 									continue;
 								}
+								c.setQuantity(quantity);
+								return;
 							}
 						}
-						c.setQuantity(quantity);
-						return;
 					}
-				}
-				if (targetitem == 2) {
-					cart.remove(targetid);
+				} else if (targetitem == 2) {
+					cart.remove(cart.indexOf(c));
 					System.out.println("削除しました");
 					return;
 				}
@@ -168,8 +181,15 @@ public class GoodsService {
 
 	//商品購入機能
 	public static void buyPrice(int choicenumber) {
+		if (choicenumber == 0) {
+			return;
+		}
 		for (Goods g : goods) {
 			if (g == goods.get((choicenumber - 1))) {
+				if (g.getStock() == 0) {
+					System.out.println("在庫がありません補充されるまでお待ちください");
+					return;
+				}
 				while (true) {
 					int quantity = InputUtil.inputInt("購入数を入力してください");
 					if (quantity > g.getStock()) {
