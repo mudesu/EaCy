@@ -15,7 +15,12 @@ public class InputUtil {
 		while (true) {
 			try {
 				System.out.println(message);
-				return scanner.nextInt();
+				int num = scanner.nextInt();
+				if (num < 0) {
+					System.out.println("0以上の整数のみが有効です");
+					continue;
+				}
+				return num;
 			} catch (Exception e) {
 				System.out.println("整数字を入力してください");
 				continue;
