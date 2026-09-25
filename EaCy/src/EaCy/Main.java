@@ -7,14 +7,7 @@ public class Main {
 
 		while (true) {
 			int number = Menu.menu();
-			if (number == 0) {
-				if (GoodsService.search(InputUtil.inputString("カテゴリーを入力してください")) = !0) {
-					while (true) {
-						GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
-						break;
-					}
-				}
-			} else if (number == 1) {
+			if (number == 1) {
 				GoodsService.listPrice(null);
 				while (true) {
 					GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
@@ -29,8 +22,13 @@ public class Main {
 				GoodsService.orderPrice();
 			} else if (number == 4) {
 				while (true) {
-
-					int admin = Menu.adminMenu();
+					System.out.println("管理画面");
+					System.out.println("0：商品一覧(id可視化)");
+					System.out.println("1：商品追加");
+					System.out.println("2：商品情報更新");
+					System.out.println("3：商品削除");
+					System.out.println("4：終了");
+					int admin = InputUtil.inputInt("番号を入力");
 
 					if (admin == 0) {
 						GoodsService.listPrice("admin");
