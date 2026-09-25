@@ -9,6 +9,7 @@ public class GoodsService {
 
 	//商品一覧表示機能
 	public static void listPrice(String message) {
+		//管理機能内商品一覧表示
 		if (message == "admin") {
 			for (Goods no : goods) {
 				System.out.println("商品id:" + no.getId());
@@ -30,6 +31,7 @@ public class GoodsService {
 		}
 	}
 
+	//カート内表示機能
 	public static void listCart() {
 		for (Cart cart : cart) {
 			System.out.println("商品id:" + cart.getId());
@@ -164,12 +166,12 @@ public class GoodsService {
 		int i = 0;
 		for (Goods goods : goods) {
 			if (targetcategory.equals(goods.getCategory())) {
-				i++;
 				System.out.println("項目:" + (i + 1));
 				System.out.println("商品名:" + goods.getTitle());
 				System.out.println("値段:" + goods.getPrice());
 				System.out.println("在庫数:" + goods.getStock());
 				System.out.println("カテゴリー:" + goods.getCategory());
+				i++;
 			}
 		}
 		if (i == 0) {
