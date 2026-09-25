@@ -8,7 +8,7 @@ public class Main {
 		while (true) {
 			//メニュー表示
 			int number = Menu.menu();
-			//検索機能
+			//検索
 			if (number == 0) {
 				if (GoodsService.search(InputUtil.inputString("カテゴリーを入力してください")) != 0) {
 					while (true) {
@@ -27,37 +27,39 @@ public class Main {
 			} else if (number == 2) {
 				GoodsService.listCart();
 				GoodsService.update(InputUtil.inputInt("変更したい注文商品のidを入力してください"));
+				//注文内容確定
 			} else if (number == 3) {
 				GoodsService.orderPrice();
+				//管理画面
 			} else if (number == 4) {
 				while (true) {
-
 					int admin = Menu.adminMenu();
-
+					//商品一覧確認
 					if (admin == 0) {
 						GoodsService.listPrice("admin");
+						//商品追加
 					} else if (admin == 1) {
 						GoodsService.addPrice();
-						//商品追加
+						//商品情報更新
 					} else if (admin == 2) {
 						GoodsService.update();
-						//商品情報更新
+						//商品削除
 					} else if (admin == 3) {
 						GoodsService.deletePrice();
-						//商品削除
+						//終了
 					} else if (admin == 4) {
 						System.out.println("メニューに戻ります。");
 						break;
-						//終了
+						//エラー処理
 					} else {
 						System.out.println("1~5の番号を入力してください。");
 					}
 				}
-				//管理
-			} else if (number == 5) {
 				//終了
+			} else if (number == 5) {
 				System.out.println("アプリケーションを終了します。");
 				break;
+				//エラー処理
 			} else {
 				System.out.println("1~5の番号を選択してください。");
 			}
