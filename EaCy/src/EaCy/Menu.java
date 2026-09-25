@@ -3,6 +3,7 @@ package EaCy;
 public class Menu {
 	static public int menu() {
 		System.out.println("メニュー一覧");
+		System.out.println("0：商品検索");
 		System.out.println("1：商品一覧");
 		System.out.println("2：カート内確認");
 		System.out.println("3：注文確定");
