@@ -160,12 +160,10 @@ public class GoodsService {
 	}
 
 	//検索機能
-	public static void search() {
-		String targetcategory = InputUtil.inputString("カテゴリーを入力してください");
-
+	public static int search(String targetcategory) {
 		int i = 0;
 		for (Goods goods : goods) {
-			if (targetcategory == goods.getCategory()) {
+			if (targetcategory.equals(goods.getCategory())) {
 				i++;
 				System.out.println("項目:" + (i + 1));
 				System.out.println("商品名:" + goods.getTitle());
@@ -176,7 +174,9 @@ public class GoodsService {
 		}
 		if (i == 0) {
 			System.out.println("検索したカテゴリーの商品がありませんでした");
+			return i;
 		}
+		return i;
 	}
 
 	//商品購入機能
