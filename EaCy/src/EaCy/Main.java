@@ -6,25 +6,27 @@ public class Main {
 		System.out.println("簡易EC注文管理アプリケーション　EaCy");
 
 		while (true) {
+			//メニュー表示
 			int number = Menu.menu();
+			//検索機能
 			if (number == 0) {
-				if (GoodsService.search(InputUtil.inputString("カテゴリーを入力してください")) = !0) {
+				if (GoodsService.search(InputUtil.inputString("カテゴリーを入力してください")) != 0) {
 					while (true) {
 						GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
 						break;
 					}
 				}
+				//一覧表示
 			} else if (number == 1) {
 				GoodsService.listPrice(null);
 				while (true) {
 					GoodsService.buyPrice(InputUtil.inputInt("購入したい商品の項目番号を入力してください(0でメニューに戻る)"));
 					break;
 				}
-				//一覧表示
+				//カート内表示
 			} else if (number == 2) {
 				GoodsService.listCart();
 				GoodsService.update(InputUtil.inputInt("変更したい注文商品のidを入力してください"));
-				//カート内表示
 			} else if (number == 3) {
 				GoodsService.orderPrice();
 			} else if (number == 4) {
