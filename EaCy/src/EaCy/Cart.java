@@ -5,6 +5,12 @@ public class Cart {
 	private String title;
 	private int quantity;
 
+	public Cart(int id, String title, int quantity) {
+		this.id = id;
+		this.title = title;
+		this.quantity = quantity;
+	}
+
 	public int getId() {
 		return id;
 	}

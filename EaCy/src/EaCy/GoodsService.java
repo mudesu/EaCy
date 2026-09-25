@@ -9,6 +9,7 @@ public class GoodsService {
 
 	//商品一覧表示機能
 	public static void listPrice(String message) {
+		//管理機能内商品一覧表示
 		if (message == "admin") {
 			for (Goods no : goods) {
 				System.out.println("商品id:" + no.getId());
@@ -20,12 +21,22 @@ public class GoodsService {
 		} else {
 			for (int i = 0; i < goods.size(); i++) {
 				Goods no = goods.get(i);
-				System.out.println("項目:" + i);
+				System.out.println("項目:" + (i + 1));
+				System.out.println("商品id:" + no.getId());
 				System.out.println("商品名:" + no.getTitle());
 				System.out.println("値段:" + no.getPrice());
 				System.out.println("在庫数:" + no.getStock());
 				System.out.println("カテゴリー:" + no.getCategory());
 			}
+		}
+	}
+
+	//カート内表示機能
+	public static void listCart() {
+		for (Cart cart : cart) {
+			System.out.println("商品id:" + cart.getId());
+			System.out.println("商品名:" + cart.getTitle());
+			System.out.println("購入数:" + cart.getQuantity());
 		}
 	}
 
@@ -40,7 +51,7 @@ public class GoodsService {
 	}
 
 	//商品情報更新機能
-	public static void updatePrice() {
+	public static void update() {
 		System.out.println("商品情報更新");
 		int targetid = InputUtil.inputInt("更新したい商品のidを入力");
 		for (Goods goods : goods) {
@@ -86,57 +97,113 @@ public class GoodsService {
 	}
 
 	//注文確定機能
-	public static void orderPrice(int order) {
-		int decision = InputUtil.inputInt("注文内容を確定する場合は1を入力、キャンセルする場合は2を入力");
-
-		if (decision == 1) {
-			for (int i = 0; i < cart.size(); i++) {
-				Cart c = cart.get(i);
-				for (Goods goods : goods)
-					if (c.getId() == goods.getId()) {
-						goods.setStock((goods.getStock() - c.getQuantity()));
-					}
-				cart.remove(i);
+	public static void orderPrice() {
+		while (true) {
+			int decision = InputUtil.inputInt("注文内容を確定する場合は1を入力、キャンセルする場合は2を入力");
+			if (decision == 1) {
+				for (int i = 0; i < cart.size(); i++) {
+					Cart c = cart.get(i);
+					for (Goods goods : goods)
+						if (c.getId() == goods.getId()) {
+							goods.setStock((goods.getStock() - c.getQuantity()));
+						}
+					cart.remove(i);
+				}
+				System.out.println("注文を確定しました");
+				return;
 			}
-			System.out.println("注文を確定しました");
+			if (decision == 2) {
+				System.out.println("注文をキャンセルしました");
+				return;
+			} else {
+				System.out.println("1か2を入力してください");
+			}
 		}
-
 	}
 
 	//注文商品内容変更機能
-	public static void orderPriceUpdate() {
-		int targetid = InputUtil.inputInt("変更したい注文商品のidを入力してください");
+	public static void update(int targetid) {
 
-		for (Cart cart : cart) {
-			if (targetid == cart.getId()) {
+		if (targetid == 0) {
+			return;
+		}
+		for (Cart c : cart) {
+			if (targetid == c.getId()) {
 				System.out.println("1:購入数変更");
 				System.out.println("2:カートから削除");
 				int targetitem = InputUtil.inputInt("変更したい項目を選択");
 
 				if (targetitem == 1) {
-					System.out.println("購入商品の在庫数");
-					cart.setQuantity(InputUtil.inputInt("購入数を変更"));
+					for (Goods goods : goods) {
+						if (goods.getId() == c.getId()) {
+							System.out.println("購入商品の在庫数:" + goods.getStock());
+						}
+					}
+					while (true) {
+						int quantity = InputUtil.inputInt("購入数を変更");
+						for (Goods goods : goods) {
+							if (targetid == goods.getId()) {
+								if (quantity > goods.getStock()) {
+									System.out.println("在庫数が足りません再入力してください");
+									continue;
+								}
+								c.setQuantity(quantity);
+								return;
+							}
+						}
+					}
+				} else if (targetitem == 2) {
+					cart.remove(cart.indexOf(c));
+					System.out.println("削除しました");
+					return;
 				}
 			}
 		}
 	}
 
-	public static void search() {
-		String targetcategory = InputUtil.inputString("カテゴリーを入力してください");
-
+	//検索機能
+	public static int search(String targetcategory) {
 		int i = 0;
 		for (Goods goods : goods) {
-			if (targetcategory == goods.getCategory()) {
-				i++;
-				System.out.println("項目:" + i);
+			if (targetcategory.equals(goods.getCategory())) {
+				System.out.println("項目:" + (i + 1));
 				System.out.println("商品名:" + goods.getTitle());
 				System.out.println("値段:" + goods.getPrice());
 				System.out.println("在庫数:" + goods.getStock());
 				System.out.println("カテゴリー:" + goods.getCategory());
+				i++;
 			}
 		}
 		if (i == 0) {
 			System.out.println("検索したカテゴリーの商品がありませんでした");
+			return i;
 		}
+		return i;
+	}
+
+	//商品購入機能
+	public static void buyPrice(int choicenumber) {
+		if (choicenumber == 0) {
+			return;
+		}
+		for (Goods g : goods) {
+			if (g == goods.get((choicenumber - 1))) {
+				if (g.getStock() == 0) {
+					System.out.println("在庫がありません補充されるまでお待ちください");
+					return;
+				}
+				while (true) {
+					int quantity = InputUtil.inputInt("購入数を入力してください");
+					if (quantity > g.getStock()) {
+						System.out.println("在庫数が足りません、再度入力してください");
+						continue;
+					}
+					cart.add(new Cart(g.getId(), g.getTitle(), quantity));
+					break;
+				}
+				return;
+			}
+		}
+		System.out.println("入力した項目が見つかりません再入力してください");
 	}
 }
